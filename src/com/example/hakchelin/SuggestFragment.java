@@ -1,43 +1,81 @@
 package com.example.hakchelin;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class MenuFragment extends Fragment {
+public class SuggestFragment extends Fragment{
 
 	ListView lv_menu;
 	ListViewAdapter mAdapter;
-
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
-		View view = inflater.inflate(R.layout.fragment_menu, container, false);
+		View view = inflater.inflate(R.layout.fragment_suggest, container, false);
 		Fragment newFragment;
 
-		lv_menu = (ListView)view.findViewById(R.id.lv_frg_menu);
+		
+		long now = System.currentTimeMillis();
+
+		Date date = new Date(now);
+		SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+		String strCurDate = CurDateFormat.format(date);
+		
+		final TextView tv_text = (TextView)view.findViewById(R.id.tv_frg_suggest);
+	    tv_text.setText(strCurDate + "....\n학슐랭 추천 밥 찾기!");
+	    
+	    Button btn_opti = (Button)view.findViewById(R.id.btn_frg_suggest_opti);
+	    Button btn_deli = (Button)view.findViewById(R.id.btn_frg_suggest_deli);
+	    Button btn_near = (Button)view.findViewById(R.id.btn_frg_suggest_near);
+	    
+	    final LinearLayout ll = (LinearLayout)view.findViewById(R.id.ll_frg_suggest);
+	    final LinearLayout ll_ok = (LinearLayout)view.findViewById(R.id.ll_frg_suggest_ok);
+	    
+		lv_menu = (ListView)view.findViewById(R.id.lv_frg_suggest);
 		mAdapter = new ListViewAdapter(getActivity().getBaseContext());
 
 		lv_menu.setAdapter(mAdapter);
+	     
+	    btn_opti.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				
+				ll.setVisibility(View.GONE);
+				ll_ok.setVisibility(View.VISIBLE);
+				mAdapter.addItem("302동","30","새우볶음밥&칠리소스","3.69","5");
+			}
+		});
+	    btn_deli.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				tv_text.setText("멀어도 좋으니 제일 맛있는 밥이 먹고 싶어요");				
+			}
+		});
+	    btn_near.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				tv_text.setText("너무 배고파서 가까운 곳의 밥이 먹고 싶어요");				
+			}
+		});
 
-		mAdapter.addItem("301동","35","뼈없는닭갈비볶음","1.45","1");
-		mAdapter.addItem("301동","30","야끼우동","4.15","2");
-		mAdapter.addItem("301동","40","돈까스5종,유부장국","2.58","3");
-		mAdapter.addItem("301동","35","야끼우동","1.15","4");
-		mAdapter.addItem("302동","30","새우볶음밥&칠리소스","3.69","5");
-		mAdapter.addItem("302동","30","갈비탕","4.45","6");
-
+	    
 		return view;
 	}
 
+	
 	private class ViewHolder {
 
 		public TextView tv_loc;

@@ -21,20 +21,48 @@ public class MenuBarFragment extends Fragment
         Button btn_3 = (Button) view.findViewById(R.id.btn_fragment_menubar_3);
         Button btn_4 = (Button) view.findViewById(R.id.btn_fragment_menubar_4);
          
-        btn_1.setOnClickListener(onBtnClickListener);
-        btn_2.setOnClickListener(onBtnClickListener);
-        btn_3.setOnClickListener(onBtnClickListener);
-        btn_4.setOnClickListener(onBtnClickListener);
          
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        Fragment newFragment;
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        final Fragment firstFragment;
          
-        newFragment = new MenuFragment();
+        firstFragment = new MenuFragment();
          
-        ft.replace(R.id.main_fl, newFragment);
+        ft.replace(R.id.main_fl, firstFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
         
+        
+        btn_1.setOnClickListener(onBtnClickListener);
+        
+        btn_1.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				
+				FragmentTransaction newft = getFragmentManager().beginTransaction();
+				Fragment newFragment;
+		        newFragment = new MenuFragment();
+		         
+		        newft.replace(R.id.main_fl, newFragment);
+		        newft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		        newft.commit();
+		        				
+			}
+		});
+        
+        btn_2.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				
+				FragmentTransaction newft = getFragmentManager().beginTransaction();
+				Fragment newFragment;
+		        newFragment = new SuggestFragment();
+		         
+		        newft.replace(R.id.main_fl, newFragment);
+		        newft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		        newft.commit();
+		        				
+			}
+		});
         return view;
     }
      
@@ -69,15 +97,8 @@ public class MenuBarFragment extends Fragment
         @Override
         public void onClick(View v)
         {
-/*        	FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment newFragment;
-             
-            newFragment = new MenuFragment();
-             
-            ft.replace(R.id.main_fl, newFragment);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.commit();
-            */
+        	
+            
         }
     };
 }
