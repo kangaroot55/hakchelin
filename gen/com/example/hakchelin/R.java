@@ -1650,7 +1650,7 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f090030;
         public static final int action_mode_bar_stub=0x7f09002f;
         public static final int action_mode_close_button=0x7f090022;
-        public static final int action_settings=0x7f090049;
+        public static final int action_settings=0x7f09004e;
         public static final int activity_chooser_view_content=0x7f090023;
         public static final int always=0x7f090014;
         public static final int beginning=0x7f09001b;
@@ -1678,6 +1678,7 @@ containing a value of this type.
         public static final int imageView1=0x7f090041;
         public static final int listMode=0x7f09000a;
         public static final int list_item=0x7f090027;
+        public static final int lv_frg_menu=0x7f090044;
         public static final int main_fl=0x7f090043;
         public static final int main_fragment=0x7f090042;
         public static final int middle=0x7f09001d;
@@ -1687,6 +1688,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f090007;
         public static final int progress_horizontal=0x7f090008;
         public static final int radio=0x7f09002d;
+        public static final int rb_lv_frg_menu=0x7f09004c;
         public static final int search_badge=0x7f090037;
         public static final int search_bar=0x7f090036;
         public static final int search_button=0x7f090038;
@@ -1704,9 +1706,12 @@ containing a value of this type.
         public static final int split_action_bar=0x7f090004;
         public static final int submit_area=0x7f09003e;
         public static final int tabMode=0x7f09000c;
-        public static final int textView1=0x7f090044;
         public static final int title=0x7f090029;
         public static final int top=0x7f09001f;
+        public static final int tv_lv_frg_menu_loc=0x7f090049;
+        public static final int tv_lv_frg_menu_menu=0x7f09004b;
+        public static final int tv_lv_frg_menu_price=0x7f09004a;
+        public static final int tv_lv_frg_menu_rate=0x7f09004d;
         public static final int up=0x7f090001;
         public static final int useLogo=0x7f090013;
         public static final int withText=0x7f090018;
@@ -1765,7 +1770,8 @@ containing a value of this type.
         public static final int activity_main=0x7f030018;
         public static final int fragment_menu=0x7f030019;
         public static final int fragment_menubar=0x7f03001a;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
+        public static final int listview_frg_menu=0x7f03001b;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001c;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;

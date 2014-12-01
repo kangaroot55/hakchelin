@@ -348,7 +348,7 @@ int id action_menu_presenter 0x7f090006
 int id action_mode_bar 0x7f090030
 int id action_mode_bar_stub 0x7f09002f
 int id action_mode_close_button 0x7f090022
-int id action_settings 0x7f090049
+int id action_settings 0x7f09004e
 int id activity_chooser_view_content 0x7f090023
 int id always 0x7f090014
 int id beginning 0x7f09001b
@@ -376,6 +376,7 @@ int id image 0x7f090025
 int id imageView1 0x7f090041
 int id listMode 0x7f09000a
 int id list_item 0x7f090027
+int id lv_frg_menu 0x7f090044
 int id main_fl 0x7f090043
 int id main_fragment 0x7f090042
 int id middle 0x7f09001d
@@ -385,6 +386,7 @@ int id normal 0x7f09000b
 int id progress_circular 0x7f090007
 int id progress_horizontal 0x7f090008
 int id radio 0x7f09002d
+int id rb_lv_frg_menu 0x7f09004c
 int id search_badge 0x7f090037
 int id search_bar 0x7f090036
 int id search_button 0x7f090038
@@ -402,9 +404,12 @@ int id showTitle 0x7f090012
 int id split_action_bar 0x7f090004
 int id submit_area 0x7f09003e
 int id tabMode 0x7f09000c
-int id textView1 0x7f090044
 int id title 0x7f090029
 int id top 0x7f09001f
+int id tv_lv_frg_menu_loc 0x7f090049
+int id tv_lv_frg_menu_menu 0x7f09004b
+int id tv_lv_frg_menu_price 0x7f09004a
+int id tv_lv_frg_menu_rate 0x7f09004d
 int id up 0x7f090001
 int id useLogo 0x7f090013
 int id withText 0x7f090018
@@ -437,7 +442,8 @@ int layout activity_loading 0x7f030017
 int layout activity_main 0x7f030018
 int layout fragment_menu 0x7f030019
 int layout fragment_menubar 0x7f03001a
-int layout support_simple_spinner_dropdown_item 0x7f03001b
+int layout listview_frg_menu 0x7f03001b
+int layout support_simple_spinner_dropdown_item 0x7f03001c
 int menu main 0x7f0c0000
 int string abc_action_bar_home_description 0x7f0a0001
 int string abc_action_bar_home_description_format 0x7f0a0004
