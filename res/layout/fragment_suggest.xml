@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
+        android:layout_marginTop="20dp"
         android:text="2014년 12월 12일\n맛있는 밥 찾기"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical" >
 
         <Button
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:visibility="gone" >
 
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:text="오늘의 학슐랭 추천 밥은!"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -68,14 +68,14 @@
             android:id="@+id/lv_frg_suggest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp" >
+            android:layout_marginTop="20dp" >
         </ListView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:text="입니다. 맛있게 드세요!"
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>

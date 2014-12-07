@@ -1,7 +1,14 @@
 package com.example.hakchelin;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.HTMLElementName;
+import net.htmlparser.jericho.Source;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -16,7 +23,7 @@ import android.widget.TextView;
 public class MenuFragment extends Fragment {
 
 	ListView lv_menu;
-	ListViewAdapter mAdapter;
+	static ListViewAdapter mAdapter;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
@@ -34,8 +41,70 @@ public class MenuFragment extends Fragment {
 		mAdapter.addItem("301동","35","야끼우동","1.15","4");
 		mAdapter.addItem("302동","30","새우볶음밥&칠리소스","3.69","5");
 		mAdapter.addItem("302동","30","갈비탕","4.45","6");
-
+		getData();
+		
+		
 		return view;
+	}
+	
+	private static void getData(){
+
+		try {
+			URL url = new URL("http://mini.snu.kr/cafe/set/2014-12-3/acdefvghinjkl");
+			InputStream html = url.openStream();
+			Source source = null;
+			source = new Source(url);
+			source.fullSequentialParse();
+
+	        Element div = source.getAllElements(HTMLElementName.DIV).get(1);
+	        Element table = div.getAllElements(HTMLElementName.TABLE).get(0);
+	        List trList = table.getAllElements(HTMLElementName.TR);
+	        Iterator trIter = trList.iterator();	         
+
+	        int i;
+	        int flag=0;
+	        int cnt=0;
+	        String restaurant = null;
+	        
+	        while(trIter.hasNext()){
+	        	Element tr = (Element) trIter.next();
+	            List dataList = tr.getAllElements(HTMLElementName.TD);
+	            Iterator dataIter = dataList.iterator();
+	            cnt=0;
+	            
+	            while(dataIter.hasNext()){
+
+	                Element data = (Element) dataIter.next();
+	                String value = data.getContent().getTextExtractor().toString();
+
+	                if(value.equals("아침")){
+	                	flag=1;
+	                }else if(value.equals("점심")){
+	                	flag=2;
+	                }else if(value.equals("저녁")){
+	                	flag=3;
+	                }
+	                if(flag==2){
+
+	                if(cnt%2==0){	// 식당 이름 
+	                	restaurant = value;
+	                }else if(cnt%2==1){	// 메뉴 이름
+	                	String array[] = value.split(" ");
+	                	for(i=0;i<array.length;i++){
+	                		mAdapter.addItem(restaurant, array[i].substring(0, 2),array[i].substring(2),"4.45","6");
+	                	}
+	                }
+
+	                }
+	                cnt++;
+		        	
+	            }
+	            
+	        }
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private class ViewHolder {

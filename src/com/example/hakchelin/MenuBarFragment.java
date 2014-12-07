@@ -1,6 +1,7 @@
 package com.example.hakchelin;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -21,6 +22,10 @@ public class MenuBarFragment extends Fragment
         Button btn_3 = (Button) view.findViewById(R.id.btn_fragment_menubar_3);
         Button btn_4 = (Button) view.findViewById(R.id.btn_fragment_menubar_4);
          
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy);
+		}
          
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
         final Fragment firstFragment;
@@ -63,6 +68,38 @@ public class MenuBarFragment extends Fragment
 		        				
 			}
 		});
+
+        btn_3.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				
+				FragmentTransaction newft = getFragmentManager().beginTransaction();
+				Fragment newFragment;
+		        newFragment = new StarFragment();
+		         
+		        newft.replace(R.id.main_fl, newFragment);
+		        newft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		        newft.commit();
+		        				
+			}
+		});
+
+        
+        btn_4.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				
+				FragmentTransaction newft = getFragmentManager().beginTransaction();
+				Fragment newFragment;
+		        newFragment = new SettingFragment();
+		         
+		        newft.replace(R.id.main_fl, newFragment);
+		        newft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		        newft.commit();
+		        				
+			}
+		});
+
         return view;
     }
      
