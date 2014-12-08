@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -79,7 +80,7 @@ public class SuggestFragment extends Fragment{
 	private class ViewHolder {
 
 		public TextView tv_loc;
-		public TextView tv_price;
+		public Button btn_color;
 		public TextView tv_menu;
 		public TextView tv_rate;
 		public RatingBar rb_rate;
@@ -139,8 +140,8 @@ public class SuggestFragment extends Fragment{
 
 				holder.tv_loc = (TextView) convertView
 						.findViewById(R.id.tv_lv_frg_menu_loc);
-				holder.tv_price = (TextView) convertView
-						.findViewById(R.id.tv_lv_frg_menu_price);
+				holder.btn_color = (Button) convertView
+						.findViewById(R.id.btn_lv_frg_menu_color);
 				holder.tv_menu = (TextView) convertView
 						.findViewById(R.id.tv_lv_frg_menu_menu);
 				holder.tv_rate = (TextView) convertView
@@ -156,10 +157,38 @@ public class SuggestFragment extends Fragment{
 			MenuListViewData mData = mMenuListViewData.get(position);
 
 			holder.tv_loc.setText(mData.loc);
-			holder.tv_price.setText(mData.price);
+
+			if (mData.price.equals("17")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#CAB776"));
+			}
+			else if (mData.price.equals("25")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#C976C6"));
+			}
+			else if (mData.price.equals("30")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#CDA33B"));
+			}
+			else if (mData.price.equals("35")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#0E379A"));
+			}
+			else if (mData.price.equals("40")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#5F8AF8"));
+			}
+			else if (mData.price.equals("45")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#525252"));
+			}
+			else {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#000000"));
+			}
+			if(!mData.price.equals("??")){
+				holder.btn_color.setText(mData.price+"00");
+			}else{
+				holder.btn_color.setText("??");
+			}
+			
 			holder.tv_menu.setText(mData.menu);
 			holder.tv_rate.setText(mData.rate);
 			holder.rb_rate.setRating(Float.parseFloat(mData.rate));
+			
 			return convertView;
 		}
 

@@ -1080,7 +1080,6 @@ containing a value of this type.
         public static final int hakchelin=0x7f020057;
         public static final int ic_launcher=0x7f020058;
         public static final int mealicon=0x7f020059;
-        public static final int snumark=0x7f02005a;
     }
     public static final class id {
         public static final int action_bar=0x7f05001c;
@@ -1094,18 +1093,21 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f050058;
+        public static final int action_settings=0x7f05005d;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
-        public static final int btn_fragment_menubar_1=0x7f05003f;
-        public static final int btn_fragment_menubar_2=0x7f050040;
-        public static final int btn_fragment_menubar_3=0x7f050041;
-        public static final int btn_fragment_menubar_4=0x7f050042;
-        public static final int btn_frg_suggest_deli=0x7f05004b;
-        public static final int btn_frg_suggest_near=0x7f05004c;
-        public static final int btn_frg_suggest_opti=0x7f05004a;
-        public static final int btn_mylocation=0x7f050043;
+        public static final int btn_fragment_menubar_1=0x7f050040;
+        public static final int btn_fragment_menubar_2=0x7f050041;
+        public static final int btn_fragment_menubar_3=0x7f050042;
+        public static final int btn_fragment_menubar_4=0x7f050043;
+        public static final int btn_frg_star=0x7f050047;
+        public static final int btn_frg_suggest_deli=0x7f05004d;
+        public static final int btn_frg_suggest_near=0x7f05004e;
+        public static final int btn_frg_suggest_opti=0x7f05004c;
+        public static final int btn_lv_frg_menu_color=0x7f050052;
+        public static final int btn_mylocation=0x7f050044;
+        public static final int btn_popup_star=0x7f05005c;
         public static final int checkbox=0x7f05002d;
         public static final int collapseActionView=0x7f05000d;
         public static final int default_activity_button=0x7f050028;
@@ -1123,12 +1125,12 @@ containing a value of this type.
         public static final int image=0x7f050027;
         public static final int listMode=0x7f050001;
         public static final int list_item=0x7f050029;
-        public static final int ll_frg_suggest=0x7f050049;
-        public static final int ll_frg_suggest_ok=0x7f05004d;
-        public static final int lv_frg_menu=0x7f05003e;
-        public static final int lv_frg_setting=0x7f050045;
-        public static final int lv_frg_star=0x7f050047;
-        public static final int lv_frg_suggest=0x7f05004e;
+        public static final int ll_frg_suggest=0x7f05004b;
+        public static final int ll_frg_suggest_ok=0x7f05004f;
+        public static final int lv_frg_menu=0x7f05003f;
+        public static final int lv_frg_setting=0x7f050046;
+        public static final int lv_frg_star=0x7f050049;
+        public static final int lv_frg_suggest=0x7f050050;
         public static final int main_fl=0x7f05003d;
         public static final int main_fragment=0x7f05003c;
         public static final int middle=0x7f050012;
@@ -1138,8 +1140,9 @@ containing a value of this type.
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
         public static final int radio=0x7f05002f;
-        public static final int rb_lv_frg_menu=0x7f050052;
-        public static final int rb_lv_frg_restaurant=0x7f050056;
+        public static final int rb_lv_frg_menu=0x7f050054;
+        public static final int rb_lv_frg_restaurant=0x7f050058;
+        public static final int rb_popup_star=0x7f05005b;
         public static final int search_badge=0x7f050032;
         public static final int search_bar=0x7f050031;
         public static final int search_button=0x7f050033;
@@ -1159,16 +1162,17 @@ containing a value of this type.
         public static final int tabMode=0x7f050002;
         public static final int title=0x7f05002b;
         public static final int top_action_bar=0x7f050020;
-        public static final int tv_frg_star=0x7f050046;
-        public static final int tv_frg_suggest=0x7f050048;
-        public static final int tv_lv_frg_menu_loc=0x7f05004f;
-        public static final int tv_lv_frg_menu_menu=0x7f050051;
-        public static final int tv_lv_frg_menu_price=0x7f050050;
-        public static final int tv_lv_frg_menu_rate=0x7f050053;
-        public static final int tv_lv_frg_restaurant_distance=0x7f050055;
-        public static final int tv_lv_frg_restaurant_name=0x7f050054;
-        public static final int tv_lv_frg_restaurant_rate=0x7f050057;
-        public static final int tv_mylocation=0x7f050044;
+        public static final int tv_frg_menu=0x7f05003e;
+        public static final int tv_frg_star=0x7f050048;
+        public static final int tv_frg_suggest=0x7f05004a;
+        public static final int tv_lv_frg_menu_loc=0x7f050051;
+        public static final int tv_lv_frg_menu_menu=0x7f050053;
+        public static final int tv_lv_frg_menu_rate=0x7f050055;
+        public static final int tv_lv_frg_restaurant_distance=0x7f050057;
+        public static final int tv_lv_frg_restaurant_name=0x7f050056;
+        public static final int tv_lv_frg_restaurant_rate=0x7f050059;
+        public static final int tv_mylocation=0x7f050045;
+        public static final int tv_popup_star=0x7f05005a;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
         public static final int withText=0x7f05000c;
@@ -1232,7 +1236,8 @@ containing a value of this type.
         public static final int fragment_suggest=0x7f03001e;
         public static final int listview_frg_menu=0x7f03001f;
         public static final int listview_frg_restaurant=0x7f030020;
-        public static final int support_simple_spinner_dropdown_item=0x7f030021;
+        public static final int popup_star=0x7f030021;
+        public static final int support_simple_spinner_dropdown_item=0x7f030022;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;

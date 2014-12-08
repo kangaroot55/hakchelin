@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_popup_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="맛 평가를 해주세요!"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <RatingBar
+        android:id="@+id/rb_popup_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right" />
+
+    
+    <Button
+        android:id="@+id/btn_popup_star"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="확인" />
+    
+</LinearLayout>

@@ -1,7 +1,9 @@
-package com.example.hakchelin;
+	package com.example.hakchelin;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,30 +12,68 @@ import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class MenuFragment extends Fragment {
 
 	ListView lv_menu;
-	static ListViewAdapter mAdapter;
-
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+	private static ListViewAdapter mAdapter;
+	private AlertDialog mDialog;
+	
+	public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
 		View view = inflater.inflate(R.layout.fragment_menu, container, false);
 		Fragment newFragment;
+		
+		long now = System.currentTimeMillis();
+		Date date = new Date(now);
+			
+		SimpleDateFormat timeformat = new SimpleDateFormat("yyyyMMddHH");
+		String time = timeformat.format(date);
+		
+		SimpleDateFormat timeformat2 = new SimpleDateFormat("yyyy년 MM월 dd일");
+		String yesi = timeformat2.format(date);
+		
+		final TextView tv_text = (TextView)view.findViewById(R.id.tv_frg_menu);
+	    tv_text.setText(yesi + " 식단입니다.");
+	    
+		String year = time.substring(0,4);
+		String month = time.substring(4,6);
+		String day = time.substring(6,8);
+		String hour = time.substring(8,10);
+		
 
 		lv_menu = (ListView)view.findViewById(R.id.lv_frg_menu);
 		mAdapter = new ListViewAdapter(getActivity().getBaseContext());
-
 		lv_menu.setAdapter(mAdapter);
+		lv_menu.setClickable(true);
+		
+		lv_menu.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id){
+				
+				mDialog = createDialog(inflater, position);
+				mDialog.show();
+				
+			}
+	    	
+	    });
 
 		mAdapter.addItem("301동","35","뼈없는닭갈비볶음","1.45","1");
 		mAdapter.addItem("301동","30","야끼우동","4.15","2");
@@ -41,16 +81,52 @@ public class MenuFragment extends Fragment {
 		mAdapter.addItem("301동","35","야끼우동","1.15","4");
 		mAdapter.addItem("302동","30","새우볶음밥&칠리소스","3.69","5");
 		mAdapter.addItem("302동","30","갈비탕","4.45","6");
-		getData();
+
+		
+		
+		//getData(year,month,day);
 		
 		
 		return view;
 	}
 	
-	private static void getData(){
+
+	private AlertDialog createDialog(LayoutInflater inflater, final int position) {
+		final View innerView = inflater.inflate(R.layout.popup_star, null);
+
+		Button btn_confirm = (Button) innerView.findViewById(R.id.btn_popup_star);
+
+		final RatingBar rb_star = (RatingBar) innerView.findViewById(R.id.rb_popup_star);
+		btn_confirm.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mAdapter.setSumPlus(position, rb_star.getRating());
+				mAdapter.setHumanPlus(position);
+				setDismiss(mDialog);
+
+			}
+		});
+
+		AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+		ab.setView(innerView);
+
+		return ab.create();
+	}
+
+	private void setDismiss(AlertDialog dialog) {
+		if (dialog != null && dialog.isShowing()) {
+			dialog.dismiss();
+		}
+	}
+
+	private static void getData(String year, String month, String day){
 
 		try {
-			URL url = new URL("http://mini.snu.kr/cafe/set/2014-12-3/acdefvghinjkl");
+
+			
+			
+			URL url = new URL("http://mini.snu.kr/cafe/set/"+year+"-"+month+"-"+day+"/acdefvghinjkl");
 			InputStream html = url.openStream();
 			Source source = null;
 			source = new Source(url);
@@ -110,7 +186,7 @@ public class MenuFragment extends Fragment {
 	private class ViewHolder {
 
 		public TextView tv_loc;
-		public TextView tv_price;
+		public Button btn_color;
 		public TextView tv_menu;
 		public TextView tv_rate;
 		public RatingBar rb_rate;
@@ -152,6 +228,14 @@ public class MenuFragment extends Fragment {
 		public String getMenuPrice(int position) {
 			return mMenuListViewData.get(position).price;
 		}
+		public void setHumanPlus(int position){
+			mMenuListViewData.get(position).human++;
+			dataChange();
+		}
+		public void setSumPlus(int position, float rating){
+			mMenuListViewData.get(position).sum+=rating;
+			dataChange();
+		}
 		
 		@Override
 		public long getItemId(int position) {
@@ -170,8 +254,8 @@ public class MenuFragment extends Fragment {
 
 				holder.tv_loc = (TextView) convertView
 						.findViewById(R.id.tv_lv_frg_menu_loc);
-				holder.tv_price = (TextView) convertView
-						.findViewById(R.id.tv_lv_frg_menu_price);
+				holder.btn_color = (Button) convertView
+						.findViewById(R.id.btn_lv_frg_menu_color);
 				holder.tv_menu = (TextView) convertView
 						.findViewById(R.id.tv_lv_frg_menu_menu);
 				holder.tv_rate = (TextView) convertView
@@ -187,10 +271,42 @@ public class MenuFragment extends Fragment {
 			MenuListViewData mData = mMenuListViewData.get(position);
 
 			holder.tv_loc.setText(mData.loc);
-			holder.tv_price.setText(mData.price);
+			
+			if (mData.price.equals("17")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#CAB776"));
+			}
+			else if (mData.price.equals("25")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#C976C6"));
+			}
+			else if (mData.price.equals("30")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#CDA33B"));
+			}
+			else if (mData.price.equals("35")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#0E379A"));
+			}
+			else if (mData.price.equals("40")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#5F8AF8"));
+			}
+			else if (mData.price.equals("45")) {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#525252"));
+			}
+			else {
+				holder.btn_color.setBackgroundColor(Color.parseColor("#000000"));
+			}
+			if(!mData.price.equals("??")){
+				holder.btn_color.setText(mData.price+"00");
+			}else{
+				holder.btn_color.setText("????");
+			}
+
 			holder.tv_menu.setText(mData.menu);
+			if(mData.human!=0) 
+				mData.rate=String.format("%.2f", mData.sum/(float)mData.human);
+			else
+				mData.rate="0.00";
 			holder.tv_rate.setText(mData.rate);
 			holder.rb_rate.setRating(Float.parseFloat(mData.rate));
+			
 			return convertView;
 		}
 
@@ -201,6 +317,8 @@ public class MenuFragment extends Fragment {
 			addData.price = price;
 			addData.menu = menu;
 			addData.rate = rate;
+			addData.human = 0;
+			addData.sum = 0;
 			addData.menu_id = menu_id;
 
 			mMenuListViewData.add(addData);
@@ -224,6 +342,8 @@ public class MenuFragment extends Fragment {
 		public String price;
 		public String menu;
 		public String rate;
+		public float sum;
+		public int human;
 		public String menu_id;
 
 	}
