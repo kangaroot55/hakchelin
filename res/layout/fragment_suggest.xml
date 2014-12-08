@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:text="입니다. 맛있게 드세요!"
+            android:text="맛있게 드세요!"
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 

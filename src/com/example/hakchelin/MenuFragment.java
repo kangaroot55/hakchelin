@@ -50,7 +50,7 @@ public class MenuFragment extends Fragment {
 		String yesi = timeformat2.format(date);
 		
 		final TextView tv_text = (TextView)view.findViewById(R.id.tv_frg_menu);
-	    tv_text.setText(yesi + " 식단입니다.");
+	    tv_text.setText("서울대학교 식당 메뉴 학슐랭\n"+yesi);
 	    
 		String year = time.substring(0,4);
 		String month = time.substring(4,6);
@@ -81,7 +81,8 @@ public class MenuFragment extends Fragment {
 		mAdapter.addItem("301동","35","야끼우동","1.15","4");
 		mAdapter.addItem("302동","30","새우볶음밥&칠리소스","3.69","5");
 		mAdapter.addItem("302동","30","갈비탕","4.45","6");
-
+		mAdapter.addItem("농생대","30","새우볶음밥&칠리소스","3.69","5");
+		mAdapter.addItem("농생대","30","갈비탕","4.45","6");
 		
 		
 		//getData(year,month,day);
@@ -252,6 +253,9 @@ public class MenuFragment extends Fragment {
 				convertView = inflater
 						.inflate(R.layout.listview_frg_menu, null);
 
+				if(position%2==1) 
+					convertView.setBackgroundColor(Color.parseColor("#DDDDDD"));
+				
 				holder.tv_loc = (TextView) convertView
 						.findViewById(R.id.tv_lv_frg_menu_loc);
 				holder.btn_color = (Button) convertView

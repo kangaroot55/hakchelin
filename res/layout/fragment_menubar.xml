@@ -9,26 +9,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="MENU" />
+        android:background="#5F8AF8"
+        android:text="Today"
+        android:textColor="#FFFFFF" />
  
     <Button
         android:id="@+id/btn_fragment_menubar_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="SUGGEST" />
+        android:background="#5F8AF8"
+        android:textColor="#FFFFFF"
+        android:text="Suggest" />
  
     <Button
         android:id="@+id/btn_fragment_menubar_3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="STAR" />
+        android:background="#5F8AF8"
+        android:textColor="#FFFFFF"
+        android:text="Search" />
  
     <Button
         android:id="@+id/btn_fragment_menubar_4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="SETTING" />
+        android:background="#5F8AF8"
+        android:textColor="#FFFFFF"
+        android:text="Location" />
 </LinearLayout>
