@@ -17,6 +17,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,16 +30,27 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
+
+/*
+ * 
+ * 해야할일
+ *  * 검색 제대로 DB검색으로
+ *  * 농식 문제...
+ *  * 추천문제...
+ *  
+ */
 public class MenuFragment extends Fragment {
 
 	ListView lv_menu;
 	private static ListViewAdapter mAdapter;
 	private AlertDialog mDialog;
+	public static DBMenuHelper db;
 	
 	public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
 		View view = inflater.inflate(R.layout.fragment_menu, container, false);
 		Fragment newFragment;
+		db = new DBMenuHelper(getActivity().getBaseContext());
 		
 		long now = System.currentTimeMillis();
 		Date date = new Date(now);
@@ -70,11 +82,15 @@ public class MenuFragment extends Fragment {
 				
 				mDialog = createDialog(inflater, position);
 				mDialog.show();
+
+				
 				
 			}
 	    	
 	    });
+		
 
+		Log.w("SIBAL",String.valueOf(db.getMenusCount()));
 		/*
 		mAdapter.addItem("301동","35","뼈없는닭갈비볶음","1.45","1");
 		mAdapter.addItem("301동","30","야끼우동","4.15","2");
@@ -103,8 +119,14 @@ public class MenuFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
+
+				Menu m;
+				m = db.getMenu(mAdapter.getMenuLoc(position), mAdapter.getMenuMenu(position));
+				db.updateMenu(new Menu(m.getLoc(),m.getPrice(),m.getMenu(),m.getRate(),m.getSum()+rb_star.getRating(),m.getHuman()+1,m.getMenu_id()));
+				
 				mAdapter.setSumPlus(position, rb_star.getRating());
 				mAdapter.setHumanPlus(position);
+				mAdapter.dataChange();
 				setDismiss(mDialog);
 
 			}
@@ -169,7 +191,13 @@ public class MenuFragment extends Fragment {
 	                }else if(cnt%2==1){	// 메뉴 이름
 	                	String array[] = value.split(" ");
 	                	for(i=0;i<array.length;i++){
-	                		mAdapter.addItem(restaurant, array[i].substring(0, 2),array[i].substring(2),"4.45","6");
+	                		
+	                		Menu mn;
+	                		mn = db.getMenu(restaurant, array[i].substring(2));
+	                		if(mn!=null)
+	                			mAdapter.addItem(mn.getLoc(), mn.getPrice(), mn.getMenu(), mn.getRate(), mn.getMenu_id(),mn.getSum(),mn.getHuman());
+	                		
+	                		
 	                	}
 	                }
 
@@ -224,7 +252,7 @@ public class MenuFragment extends Fragment {
 		public String getMenuMenu(int position) {
 			return mMenuListViewData.get(position).menu;
 		}
-		public String getMenuId(int position) {
+		public int getMenuId(int position) {
 			return mMenuListViewData.get(position).menu_id;			
 		}
 		public String getMenuPrice(int position) {
@@ -318,15 +346,15 @@ public class MenuFragment extends Fragment {
 			return convertView;
 		}
 
-		public void addItem(String loc, String price, String menu, String rate, String menu_id) {
+		public void addItem(String loc, String price, String menu, String rate, int menu_id, float sum, int human) {
 			MenuListViewData addData = null;
 			addData = new MenuListViewData();
 			addData.loc = loc;
 			addData.price = price;
 			addData.menu = menu;
 			addData.rate = rate;
-			addData.human = 0;
-			addData.sum = 0;
+			addData.human = human;
+			addData.sum = sum;
 			addData.menu_id = menu_id;
 
 			mMenuListViewData.add(addData);
@@ -352,7 +380,7 @@ public class MenuFragment extends Fragment {
 		public String rate;
 		public float sum;
 		public int human;
-		public String menu_id;
+		public int menu_id;
 
 	}
 
