@@ -14,7 +14,7 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-//		startActivity(new Intent(this,LoadingActivity.class));
+		startActivity(new Intent(this,LoadingActivity.class));
 	}
 
 	@Override

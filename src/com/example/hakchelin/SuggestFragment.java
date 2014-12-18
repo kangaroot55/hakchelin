@@ -56,19 +56,23 @@ public class SuggestFragment extends Fragment{
 				
 				ll.setVisibility(View.GONE);
 				ll_ok.setVisibility(View.VISIBLE);
-				mAdapter.addItem("302동","30","새우볶음밥&칠리소스","3.69","5");
+				mAdapter.addItem("301동","45","낙지생야채비빔밥","4.00","5");
 			}
 		});
 	    btn_deli.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				tv_text.setText("멀어도 좋으니 제일 맛있는 밥이 먹고 싶어요");				
+				ll.setVisibility(View.GONE);
+				ll_ok.setVisibility(View.VISIBLE);
+				mAdapter.addItem("학생회","35","피자돈까스","5.00","5");	
 			}
 		});
 	    btn_near.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				tv_text.setText("너무 배고파서 가까운 곳의 밥이 먹고 싶어요");				
+				ll.setVisibility(View.GONE);
+				ll_ok.setVisibility(View.VISIBLE);
+				mAdapter.addItem("301동","35","301마요덮밥","0.00","5");	
 			}
 		});
 

@@ -10,6 +10,15 @@
         android:layout_height="wrap_content"
         android:text="맛 평가를 해주세요!"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
     
     <RatingBar
         android:id="@+id/rb_popup_star"

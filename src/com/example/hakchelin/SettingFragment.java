@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -41,15 +42,8 @@ public class SettingFragment extends Fragment{
 		View view = inflater.inflate(R.layout.fragment_setting, container, false);
 		Fragment newFragment;
 
-			    
-	    Button btn_opti = (Button)view.findViewById(R.id.btn_mylocation);
-	    
-	    btn_opti.setOnClickListener(new Button.OnClickListener(){
-			@Override
-			public void onClick(View v) {
-			}
-		});
 		
+
 		tv_location = (TextView)view.findViewById(R.id.tv_mylocation);
 		lv_menu = (ListView)view.findViewById(R.id.lv_frg_setting);
 		mAdapter = new ListViewAdapter(getActivity().getBaseContext());
@@ -108,19 +102,19 @@ public class SettingFragment extends Fragment{
 
 			mAdapter.clear();
 			
-			mAdapter.addItem("학생회관", 37.459326, 126.950660, "1.45");
-			mAdapter.addItem("농식", 37.456847, 126.948472, "1.45");
-			mAdapter.addItem("두레미담", 37.456847, 126.948472, "1.45");
-			mAdapter.addItem("서당골", 37.460669, 126.955695, "1.45");
-			mAdapter.addItem("감골식당", 37.463234, 126.950097, "1.45");
-			mAdapter.addItem("901동", 37.461699, 126.957792, "1.45");
-			mAdapter.addItem("919동", 37.463254, 126.958442, "1.45");
-			mAdapter.addItem("동원관", 37.465000, 126.951729, "1.45");
-			mAdapter.addItem("자하연", 37.460923, 126.952515, "1.45");
-			mAdapter.addItem("대학원 220동", 37.464209, 126.954065, "1.45");
-			mAdapter.addItem("301동", 37.450247, 126.952593, "1.45");
-			mAdapter.addItem("302동", 37.448715, 126.952427, "1.45");
-			mAdapter.addItem("공깡", 37.457238, 126.950787, "1.45");
+			mAdapter.addItem("학생회관", 37.459326, 126.950660, "5.00");
+			mAdapter.addItem("농식", 37.456847, 126.948472, "5.00");
+			mAdapter.addItem("두레미담", 37.456847, 126.948472, "5.00");
+			mAdapter.addItem("서당골", 37.460669, 126.955695, "5.00");
+			mAdapter.addItem("감골식당", 37.463234, 126.950097, "5.00");
+			mAdapter.addItem("901동", 37.461699, 126.957792, "5.00");
+			mAdapter.addItem("919동", 37.463254, 126.958442, "5.00");
+			mAdapter.addItem("동원관", 37.465000, 126.951729, "5.00");
+			mAdapter.addItem("자하연", 37.460923, 126.952515, "5.00");
+			mAdapter.addItem("대학원 220동", 37.464209, 126.954065, "5.00");
+			mAdapter.addItem("301동", 37.450247, 126.952593, "5.00");
+			mAdapter.addItem("302동", 37.448715, 126.952427, "5.00");
+			mAdapter.addItem("공깡", 37.457238, 126.950787, "5.00");
 			
 			mAdapter.dataChange();
 		}
@@ -239,6 +233,11 @@ public class SettingFragment extends Fragment{
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
+			
+			if(position%2==1) 
+				convertView.setBackgroundColor(Color.parseColor("#DDDDDD"));
+			else
+				convertView.setBackgroundColor(Color.parseColor("#FFFFFF"));
 
 			RestaurantListData mData = mRestaurantListViewData.get(position);
 			

@@ -75,6 +75,7 @@ public class MenuFragment extends Fragment {
 	    	
 	    });
 
+		/*
 		mAdapter.addItem("301동","35","뼈없는닭갈비볶음","1.45","1");
 		mAdapter.addItem("301동","30","야끼우동","4.15","2");
 		mAdapter.addItem("301동","40","돈까스5종,유부장국","2.58","3");
@@ -83,9 +84,9 @@ public class MenuFragment extends Fragment {
 		mAdapter.addItem("302동","30","갈비탕","4.45","6");
 		mAdapter.addItem("농생대","30","새우볶음밥&칠리소스","3.69","5");
 		mAdapter.addItem("농생대","30","갈비탕","4.45","6");
+		*/
 		
-		
-		//getData(year,month,day);
+		getData(year,month,day);
 		
 		
 		return view;
@@ -253,8 +254,6 @@ public class MenuFragment extends Fragment {
 				convertView = inflater
 						.inflate(R.layout.listview_frg_menu, null);
 
-				if(position%2==1) 
-					convertView.setBackgroundColor(Color.parseColor("#DDDDDD"));
 				
 				holder.tv_loc = (TextView) convertView
 						.findViewById(R.id.tv_lv_frg_menu_loc);
@@ -272,6 +271,11 @@ public class MenuFragment extends Fragment {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
+			
+			if(position%2==1) 
+				convertView.setBackgroundColor(Color.parseColor("#DDDDDD"));
+			else
+				convertView.setBackgroundColor(Color.parseColor("#FFFFFF"));
 			MenuListViewData mData = mMenuListViewData.get(position);
 
 			holder.tv_loc.setText(mData.loc);
