@@ -102,19 +102,19 @@ public class SettingFragment extends Fragment{
 
 			mAdapter.clear();
 			
-			mAdapter.addItem("학생회관", 37.459326, 126.950660, "5.00");
-			mAdapter.addItem("농식", 37.456847, 126.948472, "5.00");
-			mAdapter.addItem("두레미담", 37.456847, 126.948472, "5.00");
-			mAdapter.addItem("서당골", 37.460669, 126.955695, "5.00");
-			mAdapter.addItem("감골식당", 37.463234, 126.950097, "5.00");
-			mAdapter.addItem("901동", 37.461699, 126.957792, "5.00");
-			mAdapter.addItem("919동", 37.463254, 126.958442, "5.00");
-			mAdapter.addItem("동원관", 37.465000, 126.951729, "5.00");
-			mAdapter.addItem("자하연", 37.460923, 126.952515, "5.00");
-			mAdapter.addItem("대학원 220동", 37.464209, 126.954065, "5.00");
-			mAdapter.addItem("301동", 37.450247, 126.952593, "5.00");
-			mAdapter.addItem("302동", 37.448715, 126.952427, "5.00");
-			mAdapter.addItem("공깡", 37.457238, 126.950787, "5.00");
+			mAdapter.addItem("학생회관", 37.459326, 126.950660, "4.00");
+			mAdapter.addItem("전망대 (농대)", 37.456847, 126.948472, "4.43");
+			mAdapter.addItem("두레미담", 37.456847, 126.948472, "4.06");
+			mAdapter.addItem("서당골 (사범대)", 37.460669, 126.955695, "3.50");
+			mAdapter.addItem("감골식당", 37.463234, 126.950097, "3.880");
+			mAdapter.addItem("기숙사 (901동)", 37.461699, 126.957792, "2.57");
+			mAdapter.addItem("기숙사 (919동)", 37.463254, 126.958442, "3.35");
+			mAdapter.addItem("동원관", 37.465000, 126.951729, "4.11");
+			mAdapter.addItem("자하연", 37.460923, 126.952515, "3.15");
+			mAdapter.addItem("220동", 37.464209, 126.954065, "2.64");
+			mAdapter.addItem("301동", 37.450247, 126.952593, "1.44");
+			mAdapter.addItem("302동", 37.448715, 126.952427, "4.01");
+			mAdapter.addItem("공깡", 37.457238, 126.950787, "2.87");
 			
 			mAdapter.dataChange();
 		}

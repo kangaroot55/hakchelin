@@ -1,4 +1,4 @@
-	package com.example.hakchelin;
+package com.example.hakchelin;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -13,8 +13,10 @@ import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +45,7 @@ public class MenuFragment extends Fragment {
 	private static ListViewAdapter mAdapter;
 	private AlertDialog mDialog;
 	public static DBMenuHelper db;
+	
 	
 	public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
@@ -100,7 +103,7 @@ public class MenuFragment extends Fragment {
 		mAdapter.addItem("농생대","30","갈비탕","4.45","6");
 		*/
 		
-		getData(year,month,day);
+		getData(year,month,day,getActivity());
 		
 		
 		return view;
@@ -142,11 +145,13 @@ public class MenuFragment extends Fragment {
 		}
 	}
 
-	private static void getData(String year, String month, String day){
+	private static void getData(String year, String month, String day, Activity act){
 
 		try {
 
-			
+			float star = 0;
+			String maxmenu;
+			String maxloc;
 			
 			URL url = new URL("http://mini.snu.kr/cafe/set/"+year+"-"+month+"-"+day+"/acdefvghinjkl");
 			InputStream html = url.openStream();
@@ -164,11 +169,13 @@ public class MenuFragment extends Fragment {
 	        int cnt=0;
 	        String restaurant = null;
 	        
+	        int cccnt=0;
 	        while(trIter.hasNext()){
 	        	Element tr = (Element) trIter.next();
 	            List dataList = tr.getAllElements(HTMLElementName.TD);
 	            Iterator dataIter = dataList.iterator();
 	            cnt=0;
+	            cccnt++;
 	            
 	            while(dataIter.hasNext()){
 
@@ -188,13 +195,35 @@ public class MenuFragment extends Fragment {
 	                	restaurant = value;
 	                }else if(cnt%2==1){	// 메뉴 이름
 	                	String array[] = value.split(" ");
+	                	
 	                	for(i=0;i<array.length;i++){
 	                		
 	                		Menu mn;
 	                		mn = db.getMenu(restaurant, array[i].substring(2));
-	                		if(mn!=null)
+	                		if(mn!=null){
 	                			mAdapter.addItem(mn.getLoc(), mn.getPrice(), mn.getMenu(), mn.getRate(), mn.getMenu_id(),mn.getSum(),mn.getHuman());
-	                		else{
+	                			
+	                			if(cccnt==1 && cnt==1 && i==0){
+	                				SharedPreferences pref = act.getSharedPreferences("pref", Context.MODE_PRIVATE);
+	                				SharedPreferences.Editor editor = pref.edit();
+	                				editor.clear();
+	                			    editor.commit();
+		                		    editor.putString("menu", mn.getMenu());
+	                		        editor.putString("loc", mn.getLoc());
+	                		        editor.commit();
+	    	                	}
+	                			if(Float.parseFloat(mn.getRate())>star){
+	                				SharedPreferences pref = act.getSharedPreferences("pref", Context.MODE_PRIVATE);
+		                		    SharedPreferences.Editor editor = pref.edit();
+		                		    star = Float.parseFloat(mn.getRate()); 
+		                		    editor.clear();
+	                			    editor.commit();
+	                			    editor.putString("menu", mn.getMenu());
+	                		        editor.putString("loc", mn.getLoc());
+	                		        editor.commit();
+	                			}
+	                		    
+	                		}else{
 	                			db.addMenuDB(new Menu(restaurant, array[i].substring(0,2), array[i].substring(2), "0.00", 0, 0));
 	                			mn = db.getMenu(restaurant, array[i].substring(2));
 	                			mAdapter.addItem(mn.getLoc(), mn.getPrice(), mn.getMenu(), mn.getRate(), mn.getMenu_id(),mn.getSum(),mn.getHuman());

@@ -1,12 +1,25 @@
 package com.example.hakchelin;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.HTMLElementName;
+import net.htmlparser.jericho.Source;
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,23 +28,44 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class SuggestFragment extends Fragment{
 
 	ListView lv_menu;
-	ListViewAdapter mAdapter;
+	static ListViewAdapter mAdapter;
+	
+	LocationManager manager;
+
+	public double user_lat;
+	public double user_lng;
+	private ProgressBar bar;
+
+	public static String minrestaurant;
+	public static DBMenuHelper db;
+	static SharedPreferences pref;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
 		View view = inflater.inflate(R.layout.fragment_suggest, container, false);
 		Fragment newFragment;
-
+		
+		db = new DBMenuHelper(getActivity().getBaseContext());
 		
 		long now = System.currentTimeMillis();
-
 		Date date = new Date(now);
+			
+		SimpleDateFormat timeformat = new SimpleDateFormat("yyyyMMddHH");
+		String time = timeformat.format(date);
+		
+	    
+		final String year = time.substring(0,4);
+		final String month = time.substring(4,6);
+		final String day = time.substring(6,8);
+		String hour = time.substring(8,10);
+		
 		SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 		String strCurDate = CurDateFormat.format(date);
 		
@@ -42,6 +76,8 @@ public class SuggestFragment extends Fragment{
 	    Button btn_deli = (Button)view.findViewById(R.id.btn_frg_suggest_deli);
 	    Button btn_near = (Button)view.findViewById(R.id.btn_frg_suggest_near);
 	    
+	    bar = (ProgressBar)view.findViewById(R.id.progressBar);
+	    
 	    final LinearLayout ll = (LinearLayout)view.findViewById(R.id.ll_frg_suggest);
 	    final LinearLayout ll_ok = (LinearLayout)view.findViewById(R.id.ll_frg_suggest_ok);
 	    
@@ -50,13 +86,25 @@ public class SuggestFragment extends Fragment{
 
 		lv_menu.setAdapter(mAdapter);
 	     
+		if(getMyLocation()==true){
+			
+		}
+
 	    btn_opti.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				
 				ll.setVisibility(View.GONE);
 				ll_ok.setVisibility(View.VISIBLE);
-				mAdapter.addItem("301동","45","낙지생야채비빔밥","4.00","5");
+				bar.setVisibility(View.VISIBLE);
+				pref = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+				Menu mn;
+        		mn = db.getMenu(pref.getString("loc", ""),pref.getString("menu", ""));
+        		try{ 
+        			Thread.sleep(500);
+        		}catch(Exception e){}
+				mAdapter.addItem(mn.getLoc(), mn.getPrice(), mn.getMenu(),mn.getRate(), String.valueOf(mn.getMenu_id()));
+				bar.setVisibility(View.GONE);
 			}
 		});
 	    btn_deli.setOnClickListener(new Button.OnClickListener(){
@@ -64,22 +112,249 @@ public class SuggestFragment extends Fragment{
 			public void onClick(View v) {
 				ll.setVisibility(View.GONE);
 				ll_ok.setVisibility(View.VISIBLE);
-				mAdapter.addItem("학생회","35","피자돈까스","5.00","5");	
+				
+				pref = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+				Menu mn;
+        		mn = db.getMenu(pref.getString("loc", ""),pref.getString("menu", ""));
+        		
+        		try{ 
+        			Thread.sleep(500);
+        		}catch(Exception e){}
+        		mAdapter.addItem(mn.getLoc(), mn.getPrice(), mn.getMenu(),mn.getRate(), String.valueOf(mn.getMenu_id()));	
 			}
 		});
+	    
 	    btn_near.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				ll.setVisibility(View.GONE);
 				ll_ok.setVisibility(View.VISIBLE);
-				mAdapter.addItem("301동","35","301마요덮밥","0.00","5");	
+				
+				getNearData(year,month,day);
+				
+					
 			}
 		});
 
 	    
+		
+	    
 		return view;
 	}
 
+	private static void getNearData(String year, String month, String day){
+
+		try {
+
+			float star = 0;
+			String maxmenu;
+			String maxloc;
+			
+			URL url = new URL("http://mini.snu.kr/cafe/set/"+year+"-"+month+"-"+day+"/acdefvghinjkl");
+			InputStream html = url.openStream();
+			Source source = null;
+			source = new Source(url);
+			source.fullSequentialParse();
+
+	        Element div = source.getAllElements(HTMLElementName.DIV).get(1);
+	        Element table = div.getAllElements(HTMLElementName.TABLE).get(0);
+	        List trList = table.getAllElements(HTMLElementName.TR);
+	        Iterator trIter = trList.iterator();	         
+
+	        int i;
+	        int flag=0;
+	        int cnt=0;
+	        String restaurant = null;
+	        
+	        int cccnt=0;
+	        while(trIter.hasNext()){
+	        	Element tr = (Element) trIter.next();
+	            List dataList = tr.getAllElements(HTMLElementName.TD);
+	            Iterator dataIter = dataList.iterator();
+	            cnt=0;
+	            cccnt++;
+	            
+	            while(dataIter.hasNext()){
+
+	                Element data = (Element) dataIter.next();
+	                String value = data.getContent().getTextExtractor().toString();
+
+	                if(value.equals("아침")){
+	                	flag=1;
+	                }else if(value.equals("점심")){
+	                	flag=2;
+	                }else if(value.equals("저녁")){
+	                	flag=3;
+	                }
+	                if(flag==2){
+
+	                if(cnt%2==0){	// 식당 이름 
+	                	restaurant = value;
+	                }else if(cnt%2==1){	// 메뉴 이름
+	                	
+	                	String array[] = value.split(" ");
+	                	if(minrestaurant.equals("")){
+	                		minrestaurant = "302동"; 
+	                	}
+	                	if(restaurant.equals(minrestaurant)){
+		                	for(i=0;i<array.length;i++){
+		                		
+		                		Menu mn;
+		                		mn = db.getMenu(restaurant, array[i].substring(2));
+		                		if(mn!=null){
+		                			
+		                			mAdapter.addItem(mn.getLoc(), mn.getPrice(), mn.getMenu(), mn.getRate(), String.valueOf(mn.getMenu_id()));
+		                			
+		                		}
+		                		
+		                	}
+	                	}
+	                }
+
+	                }
+	                cnt++;
+		        	
+	            }
+	            
+	        }
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private boolean getMyLocation() {
+		if (manager == null) {
+			manager = (LocationManager)getActivity().getBaseContext()
+					.getSystemService(Context.LOCATION_SERVICE);
+		}
+		// provider 기지국||GPS 를 통해서 받을건지 알려주는 Stirng 변수
+		// minTime 최소한 얼마만의 시간이 흐른후 위치정보를 받을건지 시간간격을 설정 설정하는 변수
+		// minDistance 얼마만의 거리가 떨어지면 위치정보를 받을건지 설정하는 변수
+		// manager.requestLocationUpdates(provider, minTime, minDistance,
+		// listener);
+
+		// 10초
+		long minTime = 1000;
+
+		// 거리는 0으로 설정
+		// 그래서 시간과 거리 변수만 보면 움직이지않고 10초뒤에 다시 위치정보를 받는다
+		float minDistance = 0;
+
+		MyLocationListener listener = new MyLocationListener();
+
+		manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime,
+				minDistance, listener);
+		
+		return false;
+	}
+	
+	class MyLocationListener implements LocationListener {
+
+		
+		// 위치정보는 아래 메서드를 통해서 전달된다.
+		@Override
+		public void onLocationChanged(Location location) {
+
+			double min = 999999999;
+			user_lat = location.getLatitude();
+			user_lng = location.getLongitude();
+
+			
+			if (min > calc_dist(user_lat, user_lng, 37.459326, 126.950660)) {
+				minrestaurant = "학생회관";
+				min = calc_dist(user_lat, user_lng, 37.459326, 126.950660);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.456847, 126.948472)) {
+				minrestaurant = "전망대 (농대)";
+				min = calc_dist(user_lat, user_lng, 37.456847, 126.948472);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.456847, 126.948472)) {
+				minrestaurant = "두레미담";
+				min = calc_dist(user_lat, user_lng, 37.456847, 126.948472);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.460669, 126.955695)) {
+				minrestaurant = "서당골 (사범대)";
+				min = calc_dist(user_lat, user_lng, 37.460669, 126.955695);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.463234, 126.950097)) {
+				minrestaurant = "감골식당";
+				min = calc_dist(user_lat, user_lng, 37.463234, 126.950097);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.461699, 126.957792)) {
+				minrestaurant = "기숙사 (901동)";
+				min = calc_dist(user_lat, user_lng, 37.461699, 126.957792);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.463254, 126.958442)) {
+				minrestaurant = "기숙사 (919동)";
+				min = calc_dist(user_lat, user_lng, 37.463254, 126.958442);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.456847, 126.948472)) {
+				minrestaurant = "두레미담";
+				min = calc_dist(user_lat, user_lng, 37.456847, 126.948472);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.465000, 126.951729)) {
+				minrestaurant = "동원관";
+				min = calc_dist(user_lat, user_lng, 37.465000, 126.951729);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.460923, 126.952515)) {
+				minrestaurant = "자하연";
+				min = calc_dist(user_lat, user_lng, 37.460923, 126.952515);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.464209, 126.954065)) {
+				minrestaurant = "220동";
+				min = calc_dist(user_lat, user_lng, 37.464209, 126.954065);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.450247, 126.952593)) {
+				minrestaurant = "301동";
+				min = calc_dist(user_lat, user_lng, 37.450247, 126.952593);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.448715, 126.952427)) {
+				minrestaurant = "302동";
+				min = calc_dist(user_lat, user_lng, 37.448715, 126.952427);
+			}
+			if (min > calc_dist(user_lat, user_lng, 37.457238, 126.950787)) {
+				minrestaurant = "공깡";
+				min = calc_dist(user_lat, user_lng, 37.457238, 126.950787);
+			}
+
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+
+		}
+
+		@Override	
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+
+		}
+
+	}
+
+	public double calc_dist(double latA, double lngA, double latB, double lngB) {
+		
+		double distance;
+
+		Location locationA = new Location("point A");
+
+		locationA.setLatitude(latA);
+		locationA.setLongitude(lngA);
+
+		Location locationB = new Location("point B");
+
+		locationB.setLatitude(latB);
+		locationB.setLongitude(lngB);
+
+		distance = locationA.distanceTo(locationB);
+
+		return distance;
+	}
 	
 	private class ViewHolder {
 
