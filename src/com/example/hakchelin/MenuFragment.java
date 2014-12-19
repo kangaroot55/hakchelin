@@ -34,8 +34,6 @@ import android.widget.AdapterView.OnItemClickListener;
 /*
  * 
  * 해야할일
- *  * 검색 제대로 DB검색으로
- *  * 농식 문제...
  *  * 추천문제...
  *  
  */
@@ -196,7 +194,12 @@ public class MenuFragment extends Fragment {
 	                		mn = db.getMenu(restaurant, array[i].substring(2));
 	                		if(mn!=null)
 	                			mAdapter.addItem(mn.getLoc(), mn.getPrice(), mn.getMenu(), mn.getRate(), mn.getMenu_id(),mn.getSum(),mn.getHuman());
-	                		
+	                		else{
+	                			db.addMenuDB(new Menu(restaurant, array[i].substring(0,2), array[i].substring(2), "0.00", 0, 0));
+	                			mn = db.getMenu(restaurant, array[i].substring(2));
+	                			mAdapter.addItem(mn.getLoc(), mn.getPrice(), mn.getMenu(), mn.getRate(), mn.getMenu_id(),mn.getSum(),mn.getHuman());
+	                			
+	                		}
 	                		
 	                	}
 	                }

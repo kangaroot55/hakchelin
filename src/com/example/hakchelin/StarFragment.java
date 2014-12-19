@@ -38,7 +38,6 @@ public class StarFragment extends Fragment {
 	private static ListViewAdapter mAdapter;
 	
 	private AlertDialog mDialog;
-	public ListViewAdapter mAdapter2;
 	public DBMenuHelper db;
 	public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
@@ -80,7 +79,6 @@ public class StarFragment extends Fragment {
 			Menu mn;
 			mn = menus.get(j); 
 			mAdapter.addItem(mn.getLoc(), mn.getPrice(), mn.getMenu(), mn.getRate(), mn.getMenu_id(),mn.getSum(),mn.getHuman());
-			Log.w("SIBAL",mn.menu + " " + String.valueOf(mn.getMenu_id()));
 		}
 		
 		
@@ -258,11 +256,10 @@ public class StarFragment extends Fragment {
 		public void search(String s){
 //			insertDB();
 //			insertDB2();
-			for(int i=0;i<mMenuListViewData.size();i++){
-				if(!mMenuListViewData.get(i).menu.contains(s)){
-					mMenuListViewData.remove(i);
-					i--;
-				}		
+			List<Menu> menus = db.getSearchMenus(s);        
+			mAdapter.clear();
+			for (Menu mn : menus) { 
+				mAdapter.addItem(mn.getLoc(), mn.getPrice(), mn.getMenu(), mn.getRate(), mn.getMenu_id(),mn.getSum(),mn.getHuman());
 			}
 			dataChange();
 		}
